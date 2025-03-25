@@ -19,6 +19,16 @@
 [![OpenReview](https://img.shields.io/badge/OpenReview-DgaY5mDdmT-blue.svg)](https://openreview.net/forum?id=DgaY5mDdmT)
 [![ICLR 2025](https://img.shields.io/badge/ICLR-2025-green.svg)](https://iclr.cc/Conferences/2025)
 
+## 📰 News 
+- [2025-03-24] Qwen-2.5-VL [implementation](qwen2_5_implementation.ipynb) is added, thanks to [@zenjieli](https://github.com/zenjieli).
+- [2025-01-26] We release our code.
+- [2025-01-21] Our paper is accepted by ICLR 2025!
+
+## 📦 To be released
+- TextVQA validation dataset with ground truth bounding boxes
+- New results on Qwen-2.5-VL
+- And more, please stay tuned!
+
 ## 📋 Overview
 
 This repository contains the official implementation of our ICLR 2025 paper "MLLMs Know Where to Look: Training-free Perception of Small Visual Details with Multimodal LLMs". Our method enables multimodal large language models (MLLMs) to better perceive small visual details without any additional training. This repository provides the detailed implementation of applying our methods on multiple MLLMs and benchmark datasets. 
