@@ -20,6 +20,7 @@
 [![ICLR 2025](https://img.shields.io/badge/ICLR-2025-green.svg)](https://iclr.cc/Conferences/2025)
 
 ## 📰 News 
+- [2025-04-11] We have released the [code](qwen2_5_methods.py) for running our method on Qwen-2.5-VL, and the TextVQA groundtruth bounding box dataset for the analysis in our paper (find below).
 - [2025-03-24] Qwen-2.5-VL [implementation](qwen2_5_implementation.ipynb) is added, thanks to [@zenjieli](https://github.com/zenjieli).
 - [2025-01-26] We release our code.
 - [2025-01-21] Our paper is accepted by ICLR 2025!
@@ -38,6 +39,25 @@ This repository contains the official implementation of our ICLR 2025 paper "MLL
 - 🔍 We find that MLLMs often know where to look, even if their answers are wrong.
 - 📸 We propose a training-free method to significantly enhance MLLMs' visual perception on small visual details.
 - 💪 Our method is flexible with different visual inputs formats, including high-resolution images (see below), multiple images, and video (to be explored in the future).
+
+### Running Qwen-2.5-VL
+
+```bash
+bash run_all.sh textvqa qwen2_5 rel_att
+```
+
+You can adjust the attention layers [here](qwen2_5_methods.py#L9), and the model resolution [here](run.py#L211).
+
+### TextVQA ground truth bounding boxes
+
+Through [link](https://huggingface.co/datasets/jrzhang/TextVQA_GT_bbox), or directly download with:
+
+```python
+from datasets import load_dataset
+
+ds = load_dataset("jrzhang/TextVQA_GT_bbox")['train']
+```
+
 
 ## 🛠️ Installation
 

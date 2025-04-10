@@ -2,7 +2,7 @@ import os
 from PIL import Image
 import torch
 import numpy as np
-from transformers import AutoProcessor, LlavaForConditionalGeneration, InstructBlipProcessor, InstructBlipForConditionalGeneration
+from transformers import AutoProcessor, LlavaForConditionalGeneration, InstructBlipProcessor, InstructBlipForConditionalGeneration, Qwen2_5_VLForConditionalGeneration
 import argparse
 from tqdm import tqdm
 import json
@@ -10,6 +10,7 @@ from datasets import load_dataset
 
 from llava_methods import *
 from blip_methods import *
+from qwen2_5_methods import *
 from utils import *
 from info import *
 
@@ -40,6 +41,8 @@ def vicrop_qa(model_name, method_name, image_path, question, model, processor, s
     if model_name == "llava":
         bbox_size = 336
     elif model_name == "blip":
+        bbox_size = 224
+    elif model_name == "qwen2_5":
         bbox_size = 224
 
     image = Image.open(image_path).convert("RGB")
@@ -145,6 +148,33 @@ def vicrop_qa(model_name, method_name, image_path, question, model, processor, s
 
         return ori_generation, multi_generation, bbox
 
+    elif model_name == "qwen2_5":
+
+        prompt = f'{question} Answer the question using a single word or phrase.'
+        general_prompt = f'{general_question} Answer the question using a single word or phrase.'
+        att_map = rel_attention_qwen2_5(image, prompt, general_prompt, model, processor)
+        bbox = bbox_from_att_image_adaptive(att_map, image.size, bbox_size)
+        crop_image = image.crop(bbox)
+        
+        image_str = encode_base64(image)
+        crop_image_str = encode_base64(crop_image)
+
+        ori_messages = [{"role": "user", "content": [{"type": "image", "image": f'data:image;base64,{image_str}'}, {"type": "text", "text": prompt}]}]
+        ori_inputs = prepare_qwen2_5_input(ori_messages, processor).to(model.device, torch.bfloat16)
+        ori_generate_ids = model.generate(**ori_inputs, max_new_tokens=20, do_sample=False)
+        ori_generate_ids_trimmed = [out_ids[len(in_ids) :] for in_ids, out_ids in zip(ori_inputs.input_ids, ori_generate_ids)]
+        ori_generation = processor.batch_decode(ori_generate_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+
+        multi_messages = [{"role": "user", "content": [{"type": "image", "image": f'data:image;base64,{image_str}'}, {"type": "image", "image": f'data:image;base64,{crop_image_str}', }, {"type": "text", "text": prompt}]}]
+        multi_inputs = prepare_qwen2_5_input(multi_messages, processor).to(model.device, torch.bfloat16)
+        multi_generate_ids = model.generate(**multi_inputs, max_new_tokens=20, do_sample=False)
+        num_img_tokens = sum(multi_inputs.input_ids[0] == 151655)
+        multi_generate_ids_trimmed = [out_ids[len(in_ids) :] for in_ids, out_ids in zip(multi_inputs.input_ids, multi_generate_ids)]
+        multi_generation = processor.batch_decode(multi_generate_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+
+        return ori_generation, multi_generation, bbox, num_img_tokens
+        
+
 def main(args):
     """
     Main function to run the visual cropping and question answering pipeline.
@@ -176,6 +206,11 @@ def main(args):
     elif args.model == 'blip':
         model = InstructBlipForConditionalGeneration.from_pretrained(args.model_id, torch_dtype=torch.bfloat16, low_cpu_mem_usage=True).to(args.device)
         processor = InstructBlipProcessor.from_pretrained(args.model_id)
+    elif args.model == 'qwen2_5':
+        max_pixels = 256 * 28 * 28
+        model = Qwen2_5_VLForConditionalGeneration.from_pretrained(args.model_id, torch_dtype=torch.bfloat16, low_cpu_mem_usage=True).to(args.device)
+        processor = AutoProcessor.from_pretrained(args.model_id, max_pixels=max_pixels)
+        processor.image_processor.size["longest_edge"] = max_pixels # this is likely a bug in current transformers (4.50.0) library, passing in max_pixels to from_pretrained does not work
     
     if os.path.exists(args.question_path):
         with open(args.question_path, "r") as f:
@@ -184,7 +219,7 @@ def main(args):
         whole_data = list(load_dataset(args.question_path)['test'])
     
     for data in whole_data:
-        data["image_path"] = os.path.join(args.image_path, data["image_path"])
+        data["image_path"] = os.path.join(args.image_path, data["image_path"]) if "image_path" in data else os.path.join(args.image_path, f"{data['image_id']}.jpg")
 
     splited_data = np.array_split(whole_data, args.total_chunks)
 
@@ -201,7 +236,11 @@ def main(args):
         else:
             short_question = d["question"]
 
-        ori_generation, crop_generation, bbox = vicrop_qa(args.model, args.method, image_path, question, model, processor, short_question)
+        if args.model == "qwen2_5":
+            ori_generation, crop_generation, bbox, num_img_tokens = vicrop_qa(args.model, args.method, image_path, question, model, processor, short_question)
+            d["num_img_tokens"] = int(num_img_tokens)
+        else:
+            ori_generation, crop_generation, bbox = vicrop_qa(args.model, args.method, image_path, question, model, processor, short_question)
 
         d["original_answer"] = ori_generation
         d["crop_answer"] = crop_generation

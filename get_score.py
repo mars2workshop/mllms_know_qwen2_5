@@ -287,9 +287,9 @@ if __name__ == "__main__":
     parser.add_argument("--save_path", type=str, help="Path to save the evaluation report", default="./")
     args = parser.parse_args()
 
-    args.models = ['llava', 'blip']
+    args.models = ['llava', 'blip', 'qwen2_5']
 
-    args.methods = ['nocrop', 'div_att', 'grad_att', 'grad', 'div_att_high', 'grad_att_high', 'grad_high']
+    args.methods = ['nocrop', 'rel_att', 'grad_att', 'grad', 'rel_att_high', 'grad_att_high', 'grad_high']
 
     args.tasks = ['textvqa', 'vstar', 'gqa', 'pope', 'aokvqa', 'docvqa', 'chartqa', 'infoqa']
 

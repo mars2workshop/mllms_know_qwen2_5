@@ -3,7 +3,30 @@ import numpy as np
 import os
 from scipy.ndimage import median_filter
 from skimage.measure import block_reduce
+from qwen_vl_utils import process_vision_info
+from io import BytesIO
+import base64
 
+def encode_base64(image):
+    """
+    Encodes a PIL image to a base64 string.
+    """
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    return img_str
+
+def prepare_qwen2_5_input(messages, processor):
+
+    """
+    Prepare the input for Qwen2.5VL.
+    """
+
+    text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    image_inputs, video_inputs = process_vision_info(messages)
+    inputs = processor(text=[text], images=image_inputs, videos=video_inputs, padding=True, return_tensors="pt")
+
+    return inputs
 
 def high_pass_filter(image, resolusion, km=7, kh=3, reduce=True):
     """
