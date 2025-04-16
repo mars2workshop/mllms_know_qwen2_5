@@ -18,7 +18,7 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2502.17422-b31b1b.svg)](https://arxiv.org/abs/2502.17422)
 [![OpenReview](https://img.shields.io/badge/OpenReview-DgaY5mDdmT-blue.svg)](https://openreview.net/forum?id=DgaY5mDdmT)
 [![ICLR 2025](https://img.shields.io/badge/ICLR-2025-green.svg)](https://iclr.cc/Conferences/2025)
-[![Data](https://img.shields.io/badge/data-orange.svg)]([https://iclr.cc/Conferences/2025](https://huggingface.co/datasets/jrzhang/TextVQA_GT_bbox))
+[![Dataset](https://img.shields.io/badge/Dataset-orange.svg)]([https://iclr.cc/Conferences/2025](https://huggingface.co/datasets/jrzhang/TextVQA_GT_bbox))
 
 ## 📰 News 
 - [2025-04-11] We have released the [code](qwen2_5_methods.py) for running our method on Qwen-2.5-VL, and the TextVQA groundtruth bounding box dataset for the analysis in our paper (find below).
