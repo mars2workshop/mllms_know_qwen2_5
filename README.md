@@ -27,7 +27,6 @@
 - [2025-01-21] Our paper is accepted by ICLR 2025!
 
 ## 📦 To be released
-- TextVQA validation dataset with ground truth bounding boxes
 - New results on Qwen-2.5-VL
 - And more, please stay tuned!
 
