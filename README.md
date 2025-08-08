@@ -1,7 +1,7 @@
-#mllms_know_qwen2_5
+# mllms_know_qwen2_5
 This project is based on mllms_know and uses qwen2.5 for inference experiments. It is part of the ICCV2025 MARS2 workshop extended experiments.
 
-##Install
+## Install
 
 Please follow the environment setup instructions from mllms_know 
 
@@ -11,22 +11,22 @@ Please follow the environment setup instructions from mllms_know
 pip install transformers==4.51.0
 ```
 
-##inference
-###Single GPU Run
+## inference
+### Single GPU Run
 If you have only one GPU, simply run `running.py`.
 
-###Multi-GPU Run
+### Multi-GPU Run
 If you want to run the experiment on multiple GPUs, run `myrun.sh`.
 
 `myrun.sh` also applies to the single GPU scenario, and we strongly recommend using this approach in both cases.
 
 
-###Custom Parameters
-####Single GPU
+### Custom Parameters
+#### Single GPU
 
 you can change parameters in `running.py`
 
-####Multi-GPU
+#### Multi-GPU
 For multi-GPU setup, modify the following parameters in `myrun.sh`:
 
 gpus: Specify the GPU IDs, for example: (0,1,2,3,4,5,6,7).
@@ -52,5 +52,5 @@ out_path: The path for output results, for example:
 out_path = f"path/to/result_chunk_{chunk_id}.json"
 ```
 
-###Output
+### Output
 It will output a number of JSON files corresponding to the number of GPUs, all in the required standard data format. Please merge them manually.
