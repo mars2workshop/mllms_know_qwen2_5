@@ -45,3 +45,6 @@ Modify the following parameters in `running_sh.py`:
 
 ### Output
 It will output a number of json files corresponding to the number of GPUs, all in the required standard data format. Please merge them manually.
+
+### Note
+Please **DO NOT** use flash-attn!
