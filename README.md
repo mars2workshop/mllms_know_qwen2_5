@@ -5,7 +5,7 @@ This project is based on mllms_know and uses qwen2.5 for inference experiments. 
 
 Please follow the environment setup instructions from mllms_know 
 
-**DO NOT** execute the transformers installation step. Instead, use the following command to install the required version of transformers:
+**Do not** perform the transformers installation step.. Instead, use the following command to install the required version of transformers:
 
 ```
 pip install transformers==4.51.0
