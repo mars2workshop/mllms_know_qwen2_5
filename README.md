@@ -3,7 +3,7 @@ This project is based on mllms_know and uses qwen2.5 for inference experiments. 
 
 ## Install
 
-Please follow the environment setup instructions from mllms_know 
+Please follow the environment setup instructions from [mllms_know](https://github.com/saccharomycetes/mllms_know) 
 
 **Do not** perform the transformers installation step.. Instead, use the following command to install the required version of transformers:
 
