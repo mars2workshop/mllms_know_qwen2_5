@@ -29,7 +29,7 @@ you can change parameters in `running.py`
 #### Multi-GPU
 For multi-GPU setup, modify the following parameters in `myrun.sh`:
 
-**gpus**: Specify the GPU IDs, for example: (0,1,2,3,4,5,6,7).
+**gpus**: Specify the GPU IDs, for example: (0 1 2 3 4 5 6 7).
 
 Modify the following parameters in `running_sh.py`:
 
