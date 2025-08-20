@@ -1,4 +1,4 @@
-# mllms_know_qwen2_5
+# Intruduction
 This project is based on mllms_know and uses qwen2.5 for inference experiments. It is part of the ICCV2025 MARS2 workshop extended experiments.
 
 ## Install
