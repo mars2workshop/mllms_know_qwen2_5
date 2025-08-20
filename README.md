@@ -1,5 +1,5 @@
 # Intruduction
-This repository provides the implementation of the method proposed in the ICLR 2025 paper 'MLLMs Know Where to Look: Training-free Perception of Small Visual Details with Multimodal LLMs' on the Qwen2.5-VL model, along with the testing of our VQA-SA dataset."
+This repository provides the implementation of the method proposed in the ICLR 2025 paper 'MLLMs Know Where to Look: Training-free Perception of Small Visual Details with Multimodal LLMs' on the Qwen2.5-VL model, along with the testing of our VQA-SA dataset.
 
 ---
 
