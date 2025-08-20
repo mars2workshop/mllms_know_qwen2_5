@@ -16,17 +16,19 @@ pip install transformers==4.51.0
 ---
 
 ## How to Run Inference
-### Prepare Input JSON
-The file should be a list of entries in this format:`VQA-SA-question.json`
-```
-[
-  {
-    "image_path": "images\\example.jpg",
-    "question": "What object is next to the red car?"
-  },
-  ...
-]
-```
+### Download Dataset
+The download link for Track #1 dataset is available on
+
+Baidu Netdisk: https://pan.baidu.com/s/1dJJpcwG3qsFeSbP2I7bvWw?pwd=0124, and on
+
+Google Drive: https://drive.google.com/drive/folders/1tn-OQn7TmpH2zFLuRDmd94vZSKc88L3c?usp=drive_link.
+
+The download link for Track #2 dataset is available on
+
+Baidu Netdisk: https://pan.baidu.com/s/1BgiFXrk-IILvIMDbHpA2pg?pwd=0124, and on
+
+Google Drive: https://drive.google.com/drive/folders/1DJ34RzjgQZC1J8uXEKXk-PlmdIqrwR_2?usp=drive_link.
+
 ### Run Script
 Please set the following configuration options, then run `myrun.sh`.
 
